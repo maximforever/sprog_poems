@@ -26,13 +26,13 @@ if(process.env.LIVE){                                                           
     dbAddress = "mongodb://localhost:27017/sprog";
 }
 
-MongoClient.connect(dbAddress, function(err, db){
+MongoClient.connect(dbAddress, function(err, client){
     if (err){
         console.log("MAYDAY! MAYDAY! Crashing.");
         return console.log(err);
     } else {
 
-
+        var db = client.db('sprog');            // this is a Mongo 3.0 thing 
         app.use(function(req, res, next){                                           // logs request URL
             
             var timeNow = new Date();
@@ -40,16 +40,34 @@ MongoClient.connect(dbAddress, function(err, db){
 
             next();
         });
+        
+        // routes
+
+        app.get("/", function(req, res){
+            res.render("index"); 
+        })
+
+        app.get("/all-poems", function(req, res){
+            dbops.getPoems(db, function(poems){
+                res.send(poems)
+            })
+        })
+
+
+        app.get("/import", function(req, res){        
+            dbops.importPoems(db, function(response){
+
+                if(response.status == "success"){
+                    console.log("Success!");
+                    res.send(response.poems);
+                } else {
+                    res.send(":(");
+                }
+
+            })
+
+        })
     }
-
-/* ROUTES */
-
-
-    app.get("/", function(req, res){
-        res.render("index"); 
-    })
-
-
 
 
 

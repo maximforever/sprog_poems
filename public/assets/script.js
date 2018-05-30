@@ -55,6 +55,30 @@ function randomPoem(){
 }
 
 
+
+function getPoemsFromDatabase(){
+
+    $.ajax({
+        type: "get",
+        url: "/all-poems",
+        success: function(response){
+
+            poems = response;
+        
+            console.log("DONE! Got " + poems.length + " poems");
+            $("#loading-bar").css("display", "none");
+
+            currentIndex = 0;
+            console.log(poems[currentIndex]);
+            displayPoem(poems[currentIndex]);    
+
+        }
+    });
+
+
+}
+
+// gets poems directly from a page on reddit
 function getPoemsFromThisPage(afterCode){
     
     var getUrl = "https://www.reddit.com/user/Poem_for_your_sprog/comments.json?limit=100&after=" + afterCode;
@@ -89,7 +113,8 @@ function getPoemsFromThisPage(afterCode){
 function getPoemsFromReddit(){
     $("#loading-bar").css("display", "block");
     
-    getPoemsFromThisPage(afterCode); 
+    getPoemsFromDatabase();
+    //getPoemsFromThisPage(afterCode); 
     
 }
 
@@ -98,18 +123,24 @@ function displayPoem(poem){
 
     $(".poem").css("display", "flex");
 
-    thisPoem = poem.data;
-    console.log(poem);
+//    console.log(poem);
 
     var content = document.createElement('span');
-    content.innerHTML = thisPoem.body_html.toString();
+    content.innerHTML = poem.data.body_html.toString();
 
     // wtf.
     $("#poem-body").empty().append($.parseHTML(content.innerHTML)[0].data);
 
+    $("#happy .count").text(poem.happy)
+    $("#sad .count").text(poem.sad)
+    $("#funny .count").text(poem.funny)
+    $("#deep .count").text(poem.deep)
+    $("#sexy .count").text(poem.sexy)
+    $("#timmy .count").text(poem.timmy)
+
     $("#current-count").text(currentIndex + 1);
     $("#total-count").text(poems.length);
-    $("#poem-link").attr("href", "https://www.reddit.com" + thisPoem.permalink)
+    $("#poem-link").attr("href", "https://www.reddit.com" + poem.data.permalink)
 
 }
 

@@ -26,16 +26,16 @@ function read(db, col, obj, callback){
     })
 }
 
-function update(db, col, item, query, callback){
+function update(db, col, query, update, callback){
     console.log("DB: updating");
     console.log("item is: ");
-    console.log(item);
+    console.log(update);
     console.log("query is: ");
     console.log(query);
 
-    db.collection(col).update(item, query, {upsert: true},  function displayAfterUpdating(){
+    db.collection(col).update(query, update, {upsert: true},  function displayAfterUpdating(){
         console.log("Updated successfully! Fetching object: ");
-        read(db, col, item, function showUpdated(updatedItem){           // do we need to find the item again?
+        read(db, col, query, function showUpdated(updatedItem){           // do we need to find the item again?
             console.log("HERE IT IS:");
             console.log(updatedItem[0]);
             callback(updatedItem[0]);

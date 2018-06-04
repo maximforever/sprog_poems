@@ -5,9 +5,19 @@ var request = require('request');                         // send HTTP requests
 
 function getPoems(db, callback){
 
-    database.read(db, "poems", {}, function(response){
-        callback(response); 
+    database.read(db, "poems", {}, function(poems){
+        callback(poems); 
     
+    })
+}
+
+function getOnePoem(db, poemID, callback){
+
+    var poemQuery = {}
+    poemQuery["data.id"] = poemID;
+
+    database.read(db, "poems", poemQuery, function(poem){
+        callback(poem); 
     })
 }
 
@@ -77,3 +87,4 @@ function getPoemsFromThisPage(afterCode, fetchCounter, poems, callback){
 /* MODULE EXPORES */
 module.exports.importPoems = importPoems;
 module.exports.getPoems = getPoems;
+module.exports.getOnePoem = getOnePoem;

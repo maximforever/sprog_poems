@@ -47,9 +47,26 @@ MongoClient.connect(dbAddress, function(err, client){
             res.render("index"); 
         })
 
+        app.get("/:id", function(req, res){
+            res.render("index"); 
+        })
+
         app.get("/all-poems", function(req, res){
             dbops.getPoems(db, function(poems){
-                res.send(poems)
+                console.log(poems);
+                res.send(poems);
+            })
+        })
+
+        app.get("/json-poems", function(req, res){
+            dbops.getPoems(db, function(poems){
+                res.render("index", {allPoems: poems});
+            })
+        })
+
+        app.get("/poem/:id", function(req, res){
+            dbops.getOnePoem(db, req.params.id, function(onePoem){
+                res.send(onePoem);
             })
         })
 

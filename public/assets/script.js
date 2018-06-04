@@ -66,11 +66,29 @@ function getPoemsFromDatabase(){
             poems = response;
         
             console.log("DONE! Got " + poems.length + " poems");
-            $("#loading-bar").css("display", "none");
+
+            $("#skeleton-poem").css("display", "none");
 
             currentIndex = 0;
-            console.log(poems[currentIndex]);
+            console.log(window.location.pathname);
+            if(window.location.pathname != "/"){
+                
+                currentIndex = 0;
+
+                for(var i = 0; i < poems.length; i++){
+                    console.log(window.location.pathname.toString().substring(1,window.location.pathname.length));
+                    
+                    console.log(poems);
+                    if((poems)[i].data.id == window.location.pathname.toString().substring(1,window.location.pathname.length) ){
+                        currentIndex = i;
+                    }
+                }
+
+            }
+
+
             displayPoem(poems[currentIndex]);    
+            
 
         }
     });
@@ -111,11 +129,7 @@ function getPoemsFromThisPage(afterCode){
 }
 
 function getPoemsFromReddit(){
-    $("#loading-bar").css("display", "block");
-    
     getPoemsFromDatabase();
-    //getPoemsFromThisPage(afterCode); 
-    
 }
 
 
@@ -141,6 +155,10 @@ function displayPoem(poem){
     $("#current-count").text(currentIndex + 1);
     $("#total-count").text(poems.length);
     $("#poem-link").attr("href", "https://www.reddit.com" + poem.data.permalink)
+
+
+    console.log("updating pathname");
+    window.history.pushState("object or string", "Title", "/" + poem.data.id);
 
 }
 

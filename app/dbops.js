@@ -5,21 +5,26 @@ var request = require('request');                         // send HTTP requests
 
 function getPoems(db, callback){
 
-    database.read(db, "poems", {}, function(poems){
+    var sortQuery = {};
+    sortQuery["data.created"] = -1;
+
+    database.sortRead(db, "poems", {}, sortQuery, function(poems){
         callback(poems); 
-    
     })
 }
 
-function getOnePoem(db, poemID, callback){
+/*function getOnePoem(db, poemID, callback){
 
-    var poemQuery = {}
-    poemQuery["data.id"] = poemID;
+    console.log("running getOnePoem");
+
+    var poemQuery = (poemID == null) ? {} : poemQuery["data.id"] = poemID;
+    console.log("poemQuery:");
+    console.log(poemQuery);
 
     database.read(db, "poems", poemQuery, function(poem){
         callback(poem); 
     })
-}
+}*/
 
 
 function importPoems(db, callback){
@@ -81,10 +86,10 @@ function getPoemsFromThisPage(afterCode, fetchCounter, poems, callback){
             callback(poems) 
         }
     })
-    
+   
 }
 
 /* MODULE EXPORES */
 module.exports.importPoems = importPoems;
 module.exports.getPoems = getPoems;
-module.exports.getOnePoem = getOnePoem;
+// module.exports.getOnePoem = getOnePoem;

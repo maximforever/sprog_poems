@@ -13,7 +13,7 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 function main(){
     console.log("script.js is running");
 
-    getPoemsFromReddit();
+    getPoemsFromDatabase();
 
 
     $("body").on(triggerEvent, ".toggle-right", function(){
@@ -27,14 +27,13 @@ function main(){
     $("body").on(triggerEvent, "#random", function(){
         randomPoem();
     });
+
+    window.addEventListener('popstate', function(e) {
+      // e.state is equal to the data-attribute of the last image we clicked
+    });
  
 }
 
-
-function init(){
-    getPoemsFromReddit();
-
-}
 
 
 function nextPoem(){
@@ -58,27 +57,29 @@ function randomPoem(){
 
 function getPoemsFromDatabase(){
 
+    console.log("getting poems from DB...");
+
     $.ajax({
         type: "get",
         url: "/all-poems",
         success: function(response){
 
+
             poems = response;
         
             console.log("DONE! Got " + poems.length + " poems");
 
-            $("#skeleton-poem").css("display", "none");
-
             currentIndex = 0;
             console.log(window.location.pathname);
+            console.log(window.location.pathname.toString().substring(1,window.location.pathname.length));
+
             if(window.location.pathname != "/"){
                 
                 currentIndex = 0;
 
                 for(var i = 0; i < poems.length; i++){
-                    console.log(window.location.pathname.toString().substring(1,window.location.pathname.length));
-                    
-                    console.log(poems);
+
+                    // get the index of the poem with the ID from the URL
                     if((poems)[i].data.id == window.location.pathname.toString().substring(1,window.location.pathname.length) ){
                         currentIndex = i;
                     }
@@ -128,12 +129,10 @@ function getPoemsFromThisPage(afterCode){
     });
 }
 
-function getPoemsFromReddit(){
-    getPoemsFromDatabase();
-}
-
 
 function displayPoem(poem){
+
+    $("#skeleton-poem").css("display", "none");
 
     $(".poem").css("display", "flex");
 
@@ -147,7 +146,6 @@ function displayPoem(poem){
 
     $("#happy .count").text(poem.happy)
     $("#sad .count").text(poem.sad)
-    $("#funny .count").text(poem.funny)
     $("#deep .count").text(poem.deep)
     $("#sexy .count").text(poem.sexy)
     $("#timmy .count").text(poem.timmy)

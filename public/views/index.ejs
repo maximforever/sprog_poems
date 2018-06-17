@@ -1,79 +1,90 @@
+<!DOCTYPE html>
 <HTML>
     <HEAD> 
-        <TITLE>Poem by Your Sprog</TITLE>
+        <TITLE>Poem for Your Sprog</TITLE>
 
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
+        <!-- google font -->
         <link href="https://fonts.googleapis.com/css?family=Averia+Serif+Libre:300,300i,700" rel="stylesheet">
+
+        <!-- font awesome -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+        <!-- emoji -->
+        <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
         
 
         <link rel="icon" href="assets/icon.png" />
-        <link rel = "stylesheet" type="text/css" href = "assets/style.css"></style>
+        <link rel = "stylesheet" type="text/css" href = "../assets/style.css"></style>
     
     </HEAD>
 
     <BODY>
 
-        <h1 class = "page-title">A Poem For Your Sprog</h1>
+        <h1 class = "page-title"><a href = "/">A Poem For Your Sprog</a></h1>
         
-        <div class = "controls">
-            <div class = "toggle toggle-left">
-                <i class="fas fa-chevron-left"></i>
-            </div>
+        <div class = "page-main-section">
 
-            <button id = "random">Random</button>
-
-            <div class = "toggle toggle-right">
-                <i class="fas fa-chevron-right"></i>
-            </div>
-        </div>
-
-        <div class = "section-main">
-
-            <div class = "poem">
-                
-                <div id = "poem-body"></div>
-                
-                <div id = "poem-tags">
-                    <div id = "happy">Happy: <span class = "count">0</span></div>
-                    <div id = "sad">Sad: <span class = "count">0</span></div>
-                    <div id = "funny">Funny: <span class = "count">0</span></div>
-                    <div id = "deep">Deep: <span class = "count">0</span></div>
-                    <div id = "sexy">Sexy: <span class = "count">0</span></div>
-                    <div id = "timmy">Timmy: <span class = "count">0</span></div>
+            <div class = "controls-section">
+                <div class = "toggle toggle-left">
+                    <i class="fas fa-chevron-left"></i>
                 </div>
 
-                <div class = "counter"><a href = "" id = "poem-link" target = "_blank">Poem <span id = "current-count">0</span> of <span id = "total-count">0</span></a></div>
+                <button id = "random">Random</button>
+
+                <div class = "toggle toggle-right">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
             </div>
 
-            <div id = "skeleton-poem">
-                <div id = "skeleton-stanza">
-                    <div class = "skeleton-line one"></div>
-                    <div class = "skeleton-line two"></div>
-                    <div class = "skeleton-line three"></div>
-                    <div class = "skeleton-line four"></div>
-                </div>
+            <div class = "poem-main-section">
 
-                <div id = "skeleton-stanza">
-                    <div class = "skeleton-line one"></div>
-                    <div class = "skeleton-line two"></div>
-                    <div class = "skeleton-line three"></div>
-                    <div class = "skeleton-line four"></div>
-                </div>
+                <div class = "poem">
                     
+                    <div id = "poem-body"></div>
+                    
+                    <div id = "poem-tags">
+                        
+                        <button id = "happy"><i class="em em-smiley"></i> <span class = "count">0</span></button>
+                        <button id = "sad"><i class="em em-cry"></i> <span class = "count">0</span></button>
+                        <button id = "deep"><i class="em em-thinking_face"></i> <span class = "count">0</span></button>
+                        <button id = "sexy"><i class="em em-eggplant"></i> <span class = "count">0</span></button>
+                        <button id = "timmy"><i class="em em-skull"></i> <span class = "count">0</span></button>
+                
+                    </div>
+
+                    <div class = "counter"><a href = "" id = "poem-link" target = "_blank">Poem <span id = "current-count">0</span> of <span id = "total-count">0</span></a></div>
+                </div>
+
+                <div id = "skeleton-poem">
+                    <div id = "skeleton-stanza">
+                        <div class = "skeleton-line one"></div>
+                        <div class = "skeleton-line two"></div>
+                        <div class = "skeleton-line three"></div>
+                        <div class = "skeleton-line four"></div>
+                    </div>
+
+                    <div id = "skeleton-stanza">
+                        <div class = "skeleton-line one"></div>
+                        <div class = "skeleton-line two"></div>
+                        <div class = "skeleton-line three"></div>
+                        <div class = "skeleton-line four"></div>
+                    </div>
+                        
 
 
-                    <div class = "skeleton-line one"></div>
+                        <div class = "skeleton-line one"></div>
+                </div>
+
             </div>
 
         </div>
-
 
 
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script type="text/javascript" src = "assets/script.js"></script>
+        <script type="text/javascript" src = "../assets/script.js"></script>
     </BODY>
 
 </HTML>

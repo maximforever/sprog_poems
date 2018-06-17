@@ -21,22 +21,37 @@ body {
     background: #e2d7b4;
     color: #906d3e;
     font-family: 'Averia Serif Libre', cursive;
-
-    max-width: 980px;
-    margin: 0 auto;
+    margin: 0;
 }
 
 .page-title{
     text-align: center;
+    background: #c7bb94;
+    margin: 0 0 1em 0;
+    padding: 15px;
 }
 
-.section-main{
+.page-title a, .page-title a:active, .page-title a:visited {
+    color: #906d3e;
+    text-decoration: none;
+}
+
+.page-title a:hover {
+    color: #483111;
+}
+
+.page-main-section {
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.poem-main-section {
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-.controls {
+.controls-section {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -57,25 +72,42 @@ body {
     margin-bottom: 15px;
 }
 
-#poem-tags div {
-    border: 3px solid #483111;
+button {
     color: #483111;
-    padding: 3px 8px;
+    padding: 7px 17px;
     margin: 3px;
     display: inline-block;
-    border-radius: 3px;
-    background: rgba(128, 128, 128, 0.3);
+    border-radius: 5px;
+    background: rgba(128, 128, 128, 0.4);
     cursor: pointer;
-    
+    border: none;
 }
 
-#poem-tags div:hover {
-    background: rgba(128, 128, 128, 0.6);
+button:focus {
+    outline: 0;
 }
+
+button:hover {
+    background: rgba(128, 128, 128, 0.6);
+    box-shadow: 0px 1px 2px rgba(10, 10, 10, 0.2);
+    transform: translateY(-3px);
+}
+
+button:active {
+    background: rgba(128, 128, 128, 0.9);
+}
+
+.count {
+    vertical-align: middle;
+    font-size: 1.1rem;
+}
+
+
 
 .counter {
     color: #d49c52;
     text-align: center;
+    padding-bottom: 5vh;
 }
 
 .toggle {
@@ -91,21 +123,10 @@ body {
 }
 
 #random {
-
-    border: 1px solid gray;
     padding: 10px 30px;
     border-radius: 10px;
     font-size: 1em;
-    color: #906d3e;
-    background: none;
-}
-
-#random:hover {
-    background: #cec4a3;
-}
-
-#random:active, #random:focus {
-    outline: none;
+    color: #483111;
 }
 
 
@@ -185,7 +206,6 @@ body {
 
     .page-title {
         font-size: 1.6em;
-        margin: 30px 0px;
     }
 
     .toggle {
@@ -195,5 +215,10 @@ body {
     #poem-body {
         font-size: 1rem;
         padding: 0 20px;
+    }
+
+    button {
+        padding: 5px 10px;
+        margin: 3px;
     }
 }

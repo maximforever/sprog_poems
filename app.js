@@ -43,13 +43,6 @@ MongoClient.connect(dbAddress, function(err, client){
         
         // routes
 
-        app.get("/", function(req, res){
-            res.render("index"); 
-        })
-
-        app.get("/:id", function(req, res){
-            res.render("index"); 
-        })
 
         app.get("/all-poems", function(req, res){
             dbops.getPoems(db, function(poems){
@@ -57,18 +50,12 @@ MongoClient.connect(dbAddress, function(err, client){
                 res.send(poems);
             })
         })
-
-        app.get("/json-poems", function(req, res){
-            dbops.getPoems(db, function(poems){
-                res.render("index", {allPoems: poems});
-            })
+        
+        app.get("/", function(req, res){
+            res.render("index");
         })
 
-        app.get("/poem/:id", function(req, res){
-            dbops.getOnePoem(db, req.params.id, function(onePoem){
-                res.send(onePoem);
-            })
-        })
+        
 
 
         app.get("/import", function(req, res){        
@@ -84,6 +71,13 @@ MongoClient.connect(dbAddress, function(err, client){
             })
 
         })
+
+
+        app.get("/:id", function(req, res){
+            res.render("index");
+        })
+
+        
     }
 
 

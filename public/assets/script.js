@@ -7,7 +7,7 @@ var fetchCounter = 1;
 var triggerEvent = "click";
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     triggerEvent = "touchstart";
-} 
+}
 
 
 function main(){
@@ -31,7 +31,7 @@ function main(){
     window.addEventListener('popstate', function(e) {
       // e.state is equal to the data-attribute of the last image we clicked
     });
- 
+
 }
 
 
@@ -66,7 +66,7 @@ function getPoemsFromDatabase(){
 
 
             poems = response;
-        
+
             console.log("DONE! Got " + poems.length + " poems");
 
             currentIndex = 0;
@@ -74,7 +74,7 @@ function getPoemsFromDatabase(){
             console.log(window.location.pathname.toString().substring(1,window.location.pathname.length));
 
             if(window.location.pathname != "/"){
-                
+
                 currentIndex = 0;
 
                 for(var i = 0; i < poems.length; i++){
@@ -88,8 +88,8 @@ function getPoemsFromDatabase(){
             }
 
 
-            displayPoem(poems[currentIndex]);    
-            
+            displayPoem(poems[currentIndex]);
+
 
         }
     });
@@ -99,19 +99,19 @@ function getPoemsFromDatabase(){
 
 // gets poems directly from a page on reddit
 function getPoemsFromThisPage(afterCode){
-    
+
     var getUrl = "https://www.reddit.com/user/Poem_for_your_sprog/comments.json?limit=100&after=" + afterCode;
 
     $.ajax({
         type: "get",
         url: getUrl,
         success: function(response){
-            
+
             poems = poems.concat(response.data.children);
             afterCode = response.data.after;
 
             if(fetchCounter < 10){
-                
+
                 $("#percent-count").empty().append(10*fetchCounter + "%");
 
                 fetchCounter++;
@@ -122,7 +122,7 @@ function getPoemsFromThisPage(afterCode){
                 $("#loading-bar").css("display", "none");
 
                 currentIndex = 0;
-                displayPoem(poems[currentIndex]);    
+                displayPoem(poems[currentIndex]);
             }
 
         }
@@ -135,6 +135,9 @@ function displayPoem(poem){
     $("#skeleton-poem").css("display", "none");
 
     $(".poem").css("display", "flex");
+    $("#poem-tags").css("display", "block");
+    $("#counter").css("display", "block");
+
 
 //    console.log(poem);
 
@@ -159,9 +162,3 @@ function displayPoem(poem){
     window.history.pushState("object or string", "Title", "/" + poem.data.id);
 
 }
-
-
-
-
-
-

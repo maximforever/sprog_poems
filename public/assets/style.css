@@ -58,9 +58,10 @@ body {
 }
 
 .poem {
+    display: flex;
+    align-content: stretch;
     flex-direction: column;
     text-align: center;
-    display: none;
 }
 
 #poem-body {
@@ -69,7 +70,8 @@ body {
 }
 
 #poem-tags {
-    margin-bottom: 15px;
+    padding-bottom: 15px;
+    display: none;
 }
 
 button {
@@ -81,6 +83,7 @@ button {
     background: rgba(128, 128, 128, 0.4);
     cursor: pointer;
     border: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
 
 button:focus {
@@ -104,10 +107,11 @@ button:active {
 
 
 
-.counter {
+#counter {
     color: #d49c52;
     text-align: center;
     padding-bottom: 5vh;
+    display: none;
 }
 
 .toggle {
@@ -215,6 +219,7 @@ button:active {
     #poem-body {
         font-size: 1rem;
         padding: 0 20px;
+        flex-grow: 1;
     }
 
     button {

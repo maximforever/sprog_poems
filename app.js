@@ -32,38 +32,37 @@ MongoClient.connect(dbAddress, function(err, client){
         return console.log(err);
     } else {
 
-        var db = client.db('sprog');            // this is a Mongo 3.0 thing 
+        var db = client.db('sprog');            // this is a Mongo 3.0 thing
         app.use(function(req, res, next){                                           // logs request URL
-            
+
             var timeNow = new Date();
-            console.log("-----> " + req.method.toUpperCase() + " " + req.url + " on " + timeNow); 
+            console.log("-----> " + req.method.toUpperCase() + " " + req.url + " on " + timeNow);
 
             next();
         });
-        
+
         // routes
 
 
         app.get("/all-poems", function(req, res){
             dbops.getPoems(db, function(poems){
-                console.log(poems);
                 res.send(poems);
             })
         })
-        
+
         app.get("/", function(req, res){
             res.render("index");
         })
 
-        
 
 
-        app.get("/import", function(req, res){        
+
+        app.get("/import", function(req, res){
             dbops.importPoems(db, function(response){
 
                 if(response.status == "success"){
                     console.log("Success!");
-                    res.send(response.poems);
+                    res.redirect("/");
                 } else {
                     res.send(":(");
                 }
@@ -77,7 +76,7 @@ MongoClient.connect(dbAddress, function(err, client){
             res.render("index");
         })
 
-        
+
     }
 
 

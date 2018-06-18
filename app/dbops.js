@@ -9,29 +9,13 @@ function getPoems(db, callback){
     sortQuery["data.created"] = -1;
 
     database.sortRead(db, "poems", {}, sortQuery, function(poems){
-        callback(poems); 
+        callback(poems);
     })
 }
-
-/*function getOnePoem(db, poemID, callback){
-
-    console.log("running getOnePoem");
-
-    var poemQuery = (poemID == null) ? {} : poemQuery["data.id"] = poemID;
-    console.log("poemQuery:");
-    console.log(poemQuery);
-
-    database.read(db, "poems", poemQuery, function(poem){
-        callback(poem); 
-    })
-}*/
-
 
 function importPoems(db, callback){
 
     var poems = [];
-
-
     getPoemsFromThisPage("", 0, poems, function(poemJSON){
 
             console.log("poemJSON has " + poemJSON.length + " poems");
@@ -68,7 +52,7 @@ function importPoems(db, callback){
 
 
 function getPoemsFromThisPage(afterCode, fetchCounter, poems, callback){
-    
+
     fetchCounter++;
 
     console.log("Getting poems for fetchCounter " + fetchCounter);
@@ -83,13 +67,11 @@ function getPoemsFromThisPage(afterCode, fetchCounter, poems, callback){
         if(fetchCounter < 10){
             getPoemsFromThisPage(afterCode, fetchCounter, poems, callback);
         } else {
-            callback(poems) 
+            callback(poems)
         }
     })
-   
 }
 
 /* MODULE EXPORES */
 module.exports.importPoems = importPoems;
 module.exports.getPoems = getPoems;
-// module.exports.getOnePoem = getOnePoem;

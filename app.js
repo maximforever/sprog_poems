@@ -54,6 +54,10 @@ MongoClient.connect(dbAddress, function(err, client){
             res.render("index");
         })
 
+        app.get("/test", function(req, res){
+            res.render("test");
+        })
+
 
 
 

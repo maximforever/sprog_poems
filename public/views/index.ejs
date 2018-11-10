@@ -22,59 +22,88 @@
 
     <BODY>
 
-        <h1 class = "page-title"><a href = "/">A Poem For Your Sprog</a></h1>
+        <div id="app">
 
-        <div class = "page-main-section">
+            <h1 class = "page-title"><a href = "/">A Poem For Your Sprog</a></h1>
 
-            <div class = "controls-section">
-                <div class = "toggle toggle-left">
-                    <i class="fas fa-chevron-left"></i>
+            <div class = "page-main-section">
+
+                
+
+                <div class = "controls-section">
+                    <div class = "toggle toggle-left" @click="previousPoem()">
+                        <i class="fas fa-chevron-left"></i>
+                    </div>
+
+                    <button id = "random" @click="randomPoem()">Random</button>
+
+                    <div class = "toggle toggle-right" @click="nextPoem()">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
                 </div>
 
-                <button id = "random">Random</button>
+                <div class = "poem-main-section">
 
-                <div class = "toggle toggle-right">
-                    <i class="fas fa-chevron-right"></i>
+                    <div class = "poem" v-if="currentPoem!=null">
+
+
+                        <div id = "counter">
+                            <a v-if="currentPoem!=null" :href="currentPoem.link" id = "poem-link" target = "_blank"># {{ currentPoemNumber }}</a>
+                        </div>
+
+                        <div id = "poem-body" v-html="currentPoem.html"></div>
+                        
+                        <a :href="currentPoem.parent" target = "_blank">Parent</a>
+
+                        <div id = "poem-tags">
+                            <button id = "happy">
+                                <i class="em em-smiley"></i> 
+                                <span class = "count">{{currentPoem.votes.happy}}</span>
+                            </button>
+                            <button id = "sad">
+                                <i class="em em-cry"></i> 
+                                <span class = "count">{{currentPoem.votes.sad}}</span>
+                            </button>
+                            <button id = "deep">
+                                <i class="em em-thinking_face"></i> 
+                                <span class = "count">{{currentPoem.votes.deep}}</span>
+                            </button>
+                            <button id = "sexy">
+                                <i class="em em-eggplant"></i> 
+                                <span class = "count">{{currentPoem.votes.sexy}}</span>
+                            </button>
+                            <button id = "timmy">
+                                <i class="em em-skull"></i> 
+                                <span class = "count">{{currentPoem.votes.timmy}}</span>
+                            </button>
+                        </div>
+
+                        
+                    </div>
+
+                    <div id = "skeleton-poem" v-if="currentPoem==null">
+                        <div id = "skeleton-stanza">
+                            <div class = "skeleton-line one"></div>
+                            <div class = "skeleton-line two"></div>
+                            <div class = "skeleton-line three"></div>
+                            <div class = "skeleton-line four"></div>
+                        </div>
+
+                        <div id = "skeleton-stanza">
+                            <div class = "skeleton-line one"></div>
+                            <div class = "skeleton-line two"></div>
+                            <div class = "skeleton-line three"></div>
+                            <div class = "skeleton-line four"></div>
+                        </div>
+                        <div class = "skeleton-line one"></div>
+                    </div>
                 </div>
             </div>
 
-            <div class = "poem-main-section">
-                <div class = "poem">
-
-                    <div id = "poem-body"></div>
-                    <div id = "poem-tags">
-                        <button id = "happy"><i class="em em-smiley"></i> <span class = "count">0</span></button>
-                        <button id = "sad"><i class="em em-cry"></i> <span class = "count">0</span></button>
-                        <button id = "deep"><i class="em em-thinking_face"></i> <span class = "count">0</span></button>
-                        <button id = "sexy"><i class="em em-eggplant"></i> <span class = "count">0</span></button>
-                        <button id = "timmy"><i class="em em-skull"></i> <span class = "count">0</span></button>
-                    </div>
-
-                    <div id = "counter"><a href = "" id = "poem-link" target = "_blank">Poem <span id = "current-count">0</span> of <span id = "total-count">0</span></a></div>
-                </div>
-
-                <div id = "skeleton-poem">
-                    <div id = "skeleton-stanza">
-                        <div class = "skeleton-line one"></div>
-                        <div class = "skeleton-line two"></div>
-                        <div class = "skeleton-line three"></div>
-                        <div class = "skeleton-line four"></div>
-                    </div>
-
-                    <div id = "skeleton-stanza">
-                        <div class = "skeleton-line one"></div>
-                        <div class = "skeleton-line two"></div>
-                        <div class = "skeleton-line three"></div>
-                        <div class = "skeleton-line four"></div>
-                    </div>
-                    <div class = "skeleton-line one"></div>
-                </div>
-            </div>
         </div>
 
-
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
         <script type="text/javascript" src = "../assets/script.js"></script>
     </BODY>
 

@@ -53,6 +53,12 @@ button:active {
     background: rgba(128, 128, 128, 0.9);
 }
 
+#app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
 .page-title{
     text-align: center;
     background: #ccc29f;
@@ -61,7 +67,7 @@ button:active {
 }
 
 .page-title a, .page-title a:active, .page-title a:visited {
-    color: #906d3e;
+    color: #776f54;
     text-decoration: none;
 }
 
@@ -79,6 +85,7 @@ button:active {
 
 .poem-main-section {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     flex: 1;
 }
@@ -90,8 +97,8 @@ button:active {
 }
 
 .poem {
+    flex-grow: 1;
     display: flex;
-    align-content: stretch;
     flex-direction: column;
     text-align: center;
 }
@@ -104,7 +111,6 @@ button:active {
 
 #poem-tags {
     padding-bottom: 15px;
-    display: none;
 }
 
 .count {
@@ -114,11 +120,13 @@ button:active {
 
 
 
-#counter {
-    color: #d49c52;
+#counter a {
     text-align: center;
-    padding-bottom: 5vh;
-    display: none;
+    padding-top: 0.6rem;
+    color: #d49c52; 
+    text-decoration: none;
+    font-size: 2rem;
+    display: block;
 }
 
 .toggle {

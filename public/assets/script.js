@@ -1,57 +1,56 @@
-$(document).ready(main);
+//$(document).ready(main);
 
 var poems = [];
 var afterCode = "";
 var fetchCounter = 1;
 
-var triggerEvent = "click";
-if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-    triggerEvent = "touchstart";
-}
+var triggerEvent = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) ? "touchstart" : "click";
 
 
-function main(){
-    console.log("script.js is running");
-
-    getPoemsFromDatabase();
-
-
-    $("body").on(triggerEvent, ".toggle-right", function(){
-        nextPoem();
-    });
-
-    $("body").on(triggerEvent, ".toggle-left", function(){
-        previousPoem();
-    });
-
-    $("body").on(triggerEvent, "#random", function(){
-        randomPoem();
-    });
-
-    window.addEventListener('popstate', function(e) {
-      // e.state is equal to the data-attribute of the last image we clicked
-    });
-
-}
+var app = new Vue({
+    el: "#app",
+    data: {
+        data: null,
+        currentlySelectedPoems: null,
+        currentPoem: null,
+        currentIndex: 0 
+    },
+    methods: {
+        nextPoem(){
+            this.currentIndex = (this.currentIndex == poems.length -1) ? 0 : this.currentIndex + 1;
+            this.displayPoem();
+        },
 
 
+        previousPoem(){
+            this.currentIndex = (this.currentIndex == 0) ? poems.length - 1 : this.currentIndex - 1;
+            this.displayPoem();
+        },
 
-function nextPoem(){
-    currentIndex = (currentIndex == poems.length -1) ? 0 : currentIndex + 1;
-    displayPoem(poems[currentIndex]);
-}
+        randomPoem(){
+            console.log("getting random poem");
+            this.currentIndex = Math.floor(Math.random()*poems.length);;
+            this.displayPoem();
+        },
 
+        displayPoem(){
 
-function previousPoem(){
-    currentIndex = (currentIndex == 0) ? poems.length - 1 : currentIndex - 1;
-    displayPoem(poems[currentIndex]);
-}
+            this.currentPoem = this.currentlySelectedPoems[this.currentIndex];
+            this.currentPoem.html = decodeHTMLEntities(this.currentPoem.html);
 
-function randomPoem(){
-    var randomIndex = Math.floor(Math.random()*poems.length);
-    currentIndex = randomIndex;
-    displayPoem(poems[currentIndex]);
-}
+            window.history.pushState("object or string", "Title", "/" + this.currentPoem.id);
+
+        }
+    },
+    computed: {
+        currentPoemNumber(){
+            return (this.data.length - this.currentIndex)
+        }
+    },
+    mounted: getPoemsFromDatabase()
+
+});
+
 
 
 
@@ -59,54 +58,49 @@ function getPoemsFromDatabase(){
 
     console.log("getting poems from DB...");
 
-    $.ajax({
-        type: "get",
-        url: "/all-poems",
-        success: function(response){
+    var self = this;
 
+    axios.get("/all-poems")
+        .then(function (response) {
 
-            poems = response;
+            poems = response.data;
+
+            app.$data.data = response.data;
+            app.$data.currentlySelectedPoems = response.data;
 
             console.log("DONE! Got " + poems.length + " poems");
 
-            currentIndex = 0;
-            console.log(window.location.pathname);
-            console.log(window.location.pathname.toString().substring(1,window.location.pathname.length));
+            currentIndex = app.$data.currentlySelectedPoems.length;
+            //console.log(window.location.pathname.toString().substring(1,window.location.pathname.length));
 
+            // if we're not on the homepage, figure out the index
             if(window.location.pathname != "/"){
-
-                currentIndex = 0;
-
                 for(var i = 0; i < poems.length; i++){
-
                     // get the index of the poem with the ID from the URL
-                    if((poems)[i].data.id == window.location.pathname.toString().substring(1,window.location.pathname.length) ){
-                        currentIndex = i;
+                    if((poems)[i].id == window.location.pathname.toString().substring(1,window.location.pathname.length) ){
+                        app.$data.currentIndex = i;
+                        // self.currentIndex = i;
                     }
                 }
-
             }
 
+            app.displayPoem();
 
-            displayPoem(poems[currentIndex]);
-
-
-        }
-    });
-
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
 
 }
 
 // gets poems directly from a page on reddit
 function getPoemsFromThisPage(afterCode){
 
-    var getUrl = "https://www.reddit.com/user/Poem_for_your_sprog/comments.json?limit=100&after=" + afterCode;
+    var redditURL = "https://www.reddit.com/user/Poem_for_your_sprog/comments.json?limit=100&after=" + afterCode;
 
-    $.ajax({
-        type: "get",
-        url: getUrl,
-        success: function(response){
-
+    axios.get(redditURL)
+        .then(function (response) {
+            
             poems = poems.concat(response.data.children);
             afterCode = response.data.after;
 
@@ -125,40 +119,31 @@ function getPoemsFromThisPage(afterCode){
                 displayPoem(poems[currentIndex]);
             }
 
-        }
-    });
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 }
 
+// reddit HTML is encoded, so we need decode to get our tags back in order to use the v-html directive
+function decodeHTMLEntities(text) {
+    var entities = [
+        ['amp', '&'],
+        ['apos', '\''],
+        ['#x27', '\''],
+        ['#x2F', '/'],
+        ['#39', '\''],
+        ['#47', '/'],
+        ['lt', '<'],
+        ['gt', '>'],
+        ['nbsp', ' '],
+        ['quot', '"']
+    ];
 
-function displayPoem(poem){
+    for (var i = 0; max =  i < entities.length; i++){
+        text = text.replace(new RegExp('&'+entities[i][0]+';', 'g'), entities[i][1]);
+    } 
+        
 
-    $("#skeleton-poem").css("display", "none");
-
-    $(".poem").css("display", "flex");
-    $("#poem-tags").css("display", "block");
-    $("#counter").css("display", "block");
-
-
-//    console.log(poem);
-
-    var content = document.createElement('span');
-    content.innerHTML = poem.data.body_html.toString();
-
-    // wtf.
-    $("#poem-body").empty().append($.parseHTML(content.innerHTML)[0].data);
-
-    $("#happy .count").text(poem.happy)
-    $("#sad .count").text(poem.sad)
-    $("#deep .count").text(poem.deep)
-    $("#sexy .count").text(poem.sexy)
-    $("#timmy .count").text(poem.timmy)
-
-    $("#current-count").text(currentIndex + 1);
-    $("#total-count").text(poems.length);
-    $("#poem-link").attr("href", "https://www.reddit.com" + poem.data.permalink)
-
-
-    console.log("updating pathname");
-    window.history.pushState("object or string", "Title", "/" + poem.data.id);
-
+    return text;
 }

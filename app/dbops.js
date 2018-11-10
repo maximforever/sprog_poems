@@ -6,10 +6,45 @@ var request = require('request');                         // send HTTP requests
 function getPoems(db, callback){
 
     var sortQuery = {};
-    sortQuery["data.created"] = -1;
+    sortQuery["data.created"] = 1;
 
     database.sortRead(db, "poems", {}, sortQuery, function(poems){
-        callback(poems);
+
+        var formattedPoems = [];
+
+        for(var i = 0; i < poems.length; i++){
+            
+            var poem = poems[i].data;
+            var parentLink = poem.link_permalink + poem.parent_id.substr(3);
+
+            var thisPoem = {
+                body: poem.body,
+                html: poem.body_html,
+                link: poem.link_permalink + poem.id,
+                parent: parentLink,
+                id: poem.id, 
+                votes: {
+                    happy: 0,
+                    sad: 0,
+                    deep: 0,
+                    sexy: 0,
+                    timmy: 0
+                },
+                ipVotes: {
+                    happy: false,
+                    sad: false,
+                    deep: false,
+                    sexy: false,
+                    timmy: false
+                }
+            }
+
+            formattedPoems.unshift(thisPoem);
+
+        }
+
+
+        callback(formattedPoems);
     })
 }
 

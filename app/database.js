@@ -78,8 +78,8 @@ function sortRead(db, col, obj, sort, callback){
             console.log("MAYDAY! MAYDAY! Crashing.");
             console.log(err);
         }
-        console.log("READ AND SORT: pulled " + result.length + " records from '" + col + "' for the query WITH SORT:");
-        console.log(sort);
+        //console.log("READ AND SORT: pulled " + result.length + " records from '" + col + "' for the query WITH SORT:");
+        //console.log(sort);
         callback(result);
     })
 }

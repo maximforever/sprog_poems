@@ -21,7 +21,8 @@ const dbops = require("./app/dbops");
 const database = require("./app/database");
 
 if(process.env.LIVE){                                                                           // this is how I do config, folks. put away your pitforks, we're all learning here.
-    dbAddress = "mongodb://" + process.env.MLAB_USERNAME + ":" + process.env.MLAB_PASSWORD + "@ds139960.mlab.com:39960/sprog";
+    dbAddress = `mongodb+srv://${process.env.ATLAS_USERNAME}:${process.env.ATLAS_PASSWORD}@sprog.8tlhm.mongodb.net/sprog?retryWrites=true&w=majority
+ Copy`
 } else {
     dbAddress = "mongodb://localhost:27017/sprog";
 }

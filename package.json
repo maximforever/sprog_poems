@@ -14,7 +14,7 @@
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "mongodb": "^3.1.9",
-    "nodemailer": "^4.6.5",
+    "nodemailer": "^6.4.16",
     "nodemon": "^1.17.3",
     "request": "^2.87.0"
   }
